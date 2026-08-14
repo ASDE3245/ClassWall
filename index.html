@@ -96,7 +96,7 @@
 
     <header id="cabecera">
         <h1>ClassWall</h1>
-        <p>Portal de minijuegos de Lengua - 2º ESO</p>
+        <p>Minijuegos creados para practicar clase a clase</p>
     </header>
 
     <div id="grid-principal" class="grid-juegos"></div>
@@ -106,8 +106,42 @@
         <div id="area-juego-dinamico"></div>
     </div>
 
-    <script src="juegos.js"></script>
     <script>
+        // Los juegos están integrados directamente aquí para evitar fallos de carga
+        const listaJuegos = [
+            {
+                tipo: "test",
+                titulo: "Acentuación: ¿Aguda, llana o esdrújula?",
+                categoria: "Ortografía",
+                desc: "Pon a prueba tus conocimientos sobre la clasificación de las palabras según su sílaba tónica.",
+                preguntas: [
+                    {
+                        enunciado: "¿Qué tipo de palabra es 'lápiz'?",
+                        opcion: ["Aguda", "Llana", "Esdrújula", "Sobresdrújula"],
+                        correcta: 1
+                    },
+                    {
+                        enunciado: "¿Qué tipo de palabra es 'canción'?",
+                        opcion: ["Aguda", "Llana", "Esdrújula", "Sobresdrújula"],
+                        correcta: 0
+                    }
+                ]
+            },
+            {
+                tipo: "test",
+                titulo: "El Sujeto y el Predicado",
+                categoria: "Gramática",
+                desc: "Identifica correctamente los elementos básicos de la oración simple.",
+                preguntas: [
+                    {
+                        enunciado: "En la oración 'Los alumnos estudian lengua', ¿cuál es el sujeto?",
+                        opcion: ["estudian lengua", "Los alumnos", "estudian", "lengua"],
+                        correcta: 1
+                    }
+                ]
+            }
+        ];
+
         const gridPrincipal = document.getElementById('grid-principal');
         const contenedorActivo = document.getElementById('contenedor-juego-activo');
         const areaJuego = document.getElementById('area-juego-dinamico');
@@ -119,22 +153,18 @@
             contenedorActivo.style.display = 'none';
             cabecera.style.display = 'block';
 
-            if (typeof listaJuegos !== 'undefined') {
-                listaJuegos.forEach((j, index) => {
-                    gridPrincipal.innerHTML += `
-                        <div class="card">
-                            <div>
-                                <span class="tag">${j.categoria}</span>
-                                <h3>${j.titulo}</h3>
-                                <p>${j.desc}</p>
-                            </div>
-                            <button class="btn" onclick="iniciarJuego(${index})">Jugar</button>
+            listaJuegos.forEach((j, index) => {
+                gridPrincipal.innerHTML += `
+                    <div class="card">
+                        <div>
+                            <span class="tag">${j.categoria}</span>
+                            <h3>${j.titulo}</h3>
+                            <p>${j.desc}</p>
                         </div>
-                    `;
-                });
-            } else {
-                gridPrincipal.innerHTML = `<p style="text-align:center; color:red; grid-column: 1/-1;">Error: No se encuentra juegos.js</p>`;
-            }
+                        <button class="btn" onclick="iniciarJuego(${index})">Jugar</button>
+                    </div>
+                `;
+            });
         }
 
         function iniciarJuego(index) {
