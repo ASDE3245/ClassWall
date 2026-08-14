@@ -5,7 +5,6 @@
     <title>ClassWall - Lengua 2º ESO</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        /* ESTÉTICA ORIGINAL (Modo Claro por defecto) */
         :root {
             --fondo: #f4f7f6;
             --texto: #2c3e50;
@@ -13,8 +12,6 @@
             --acento: #3498db;
             --sombra: rgba(0, 0, 0, 0.05);
         }
-
-        /* MODO OSCURO (Se activa con el botón) */
         body.dark {
             --fondo: #121212;
             --texto: #e0e0e0;
@@ -22,7 +19,6 @@
             --acento: #3498db;
             --sombra: rgba(0, 0, 0, 0.5);
         }
-
         body {
             font-family: 'Poppins', sans-serif;
             background-color: var(--fondo);
@@ -31,107 +27,49 @@
             padding: 40px 20px;
             transition: background 0.3s, color 0.3s;
         }
-
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        header h1 {
-            margin-bottom: 5px;
-            font-size: 2.5rem;
-        }
-
-        header p {
-            color: #7f8c8d;
-        }
-
+        header { text-align: center; margin-bottom: 40px; }
+        header h1 { margin-bottom: 5px; font-size: 2.5rem; }
+        header p { color: #7f8c8d; }
         .btn-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--tarjeta);
-            color: var(--texto);
-            border: 2px solid var(--acento);
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
+            position: fixed; top: 20px; right: 20px;
+            background: var(--tarjeta); color: var(--texto);
+            border: 2px solid var(--acento); padding: 8px 15px;
+            border-radius: 20px; cursor: pointer; font-family: 'Poppins', sans-serif; font-weight: 600;
             box-shadow: 0 4px 6px var(--sombra);
         }
-
         .grid-juegos {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            max-width: 1000px;
-            margin: 0 auto;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px; max-width: 1000px; margin: 0 auto;
         }
-
         .card {
-            background: var(--tarjeta);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px var(--sombra);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: transform 0.2s;
+            background: var(--tarjeta); padding: 25px; border-radius: 15px;
+            box-shadow: 0 10px 20px var(--sombra); display: flex; flex-direction: column;
+            justify-content: space-between; transition: transform 0.2s;
         }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
+        .card:hover { transform: translateY(-5px); }
         .btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background: var(--acento);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
-            margin-top: 15px;
-            text-align: center;
+            display: block; width: 100%; padding: 12px; background: var(--acento);
+            color: white; border: none; border-radius: 8px; cursor: pointer;
+            font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1rem;
+            margin-top: 15px; text-align: center;
         }
-
-        .btn:hover {
-            opacity: 0.9;
-        }
-
-        .btn-volver {
-            background: #e74c3c;
-            margin-bottom: 20px;
-            width: auto;
-            padding: 10px 20px;
-        }
-
+        .btn:hover { opacity: 0.9; }
+        .btn-volver { background: #e74c3c; margin-bottom: 20px; width: auto; padding: 10px 20px; }
         input {
-            background: var(--tarjeta);
-            border: 2px solid var(--acento);
-            color: var(--texto);
-            padding: 12px;
-            width: 100%;
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
-            margin: 15px 0;
+            background: var(--tarjeta); border: 2px solid var(--acento); color: var(--texto);
+            padding: 12px; width: 100%; border-radius: 8px; box-sizing: border-box;
+            font-family: 'Poppins', sans-serif; font-size: 1rem; margin: 15px 0;
         }
-
+        .lista-ordenar {
+            list-style: none; padding: 0; margin: 15px 0;
+        }
+        .lista-ordenar li {
+            background: var(--fondo); border: 1px solid var(--acento);
+            padding: 10px; margin-bottom: 8px; border-radius: 6px; cursor: pointer;
+        }
         #contenedor-juego-activo {
-            max-width: 600px;
-            margin: 0 auto;
-            background: var(--tarjeta);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px var(--sombra);
-            display: none;
+            max-width: 600px; margin: 0 auto; background: var(--tarjeta);
+            padding: 30px; border-radius: 15px; box-shadow: 0 10px 20px var(--sombra); display: none;
         }
     </style>
 </head>
@@ -154,27 +92,47 @@
     <script>
         const juegos = [
             {
-                tipo: "input",
-                titulo: "Acentuación (Escritura)",
-                desc: "Escribe la palabra correctamente acentuada.",
-                preguntas: [
-                    { enunciado: "¿Cómo se escribe 'lapiz' con tilde?", respuesta: "lápiz" },
-                    { enunciado: "¿Cómo se escribe 'arbol' con tilde?", respuesta: "árbol" }
-                ]
-            },
-            {
                 tipo: "test",
                 titulo: "Sintaxis (Test)",
                 desc: "Selecciona la opción correcta.",
                 preguntas: [
                     { enunciado: "En 'El perro ladra', ¿cuál es el sujeto?", opcion: ["El perro", "ladra"], correcta: 0 }
                 ]
+            },
+            {
+                tipo: "input",
+                titulo: "Acentuación (Escritura)",
+                desc: "Escribe la palabra correctamente acentuada.",
+                preguntas: [
+                    { enunciado: "¿Cómo se escribe 'lapiz' con tilde?", respuesta: "lápiz" }
+                ]
+            },
+            {
+                tipo: "tof",
+                titulo: "Teoría (Verdadero o Falso)",
+                desc: "Indica si las afirmaciones son verdaderas o falsas.",
+                preguntas: [
+                    { enunciado: "¿El adverbio es una palabra invariable?", respuesta: true },
+                    { enunciado: "¿Los determinantes siempre van detrás del sustantivo?", respuesta: false }
+                ]
+            },
+            {
+                tipo: "hueco",
+                titulo: "Completar la oración",
+                desc: "Escribe la palabra que falta en el espacio _____.",
+                preguntas: [
+                    { enunciado: "El núcleo de un grupo nominal siempre es un _____.", respuesta: "sustantivo" }
+                ]
+            },
+            {
+                tipo: "ordenar",
+                titulo: "Ordenar pasos sintácticos",
+                desc: "Haz clic en los elementos para comprobar el orden correcto.",
+                elementosCorrectos: ["1. Buscar el verbo", "2. Preguntar ¿Quién realiza la acción?", "3. Delimitar el Sujeto y el Predicado"]
             }
         ];
 
-        function toggleTheme() {
-            document.body.classList.toggle('dark');
-        }
+        function toggleTheme() { document.body.classList.toggle('dark'); }
 
         function cargarMenu() {
             const grid = document.getElementById('grid-principal');
@@ -202,57 +160,82 @@
             const area = document.getElementById('area-juego-dinamico');
 
             function mostrar() {
+                if (j.tipo === "ordenar") {
+                    let mezcla = [...j.elementosCorrectos].sort(() => Math.random() - 0.5);
+                    area.innerHTML = `
+                        <h3>${j.titulo}</h3>
+                        <p style="font-weight:600; margin-top:15px;">Ordena los elementos haciendo clic en el orden correcto:</p>
+                        <ul class="lista-ordenar" id="sort-list">
+                            ${mezcla.map(el => `<li onclick="verificarOrden(this)">${el}</li>`).join('')}
+                        </ul>
+                    `;
+                    window.elementosSeleccionados = [];
+                    window.totalElementos = j.elementosCorrectos;
+                    return;
+                }
+
                 if (pIdx >= j.preguntas.length) {
                     area.innerHTML = `<h2>¡Juego completado! 🎉</h2><button class='btn' onclick='volverAlMenu()'>Volver al menú</button>`;
                     return;
                 }
                 const p = j.preguntas[pIdx];
                 
-                if (j.tipo === "input") {
+                if (j.tipo === "input" || j.tipo === "hueco") {
                     area.innerHTML = `
                         <h3>${j.titulo}</h3>
                         <p>Pregunta ${pIdx + 1} de ${j.preguntas.length}</p>
                         <p style="font-weight:600; margin-top:15px;">${p.enunciado}</p>
                         <input type="text" id="resp" placeholder="Escribe aquí y pulsa Enter..." onkeydown="if(event.key==='Enter') checkInput('${p.respuesta}')">
                     `;
-                } else {
+                } else if (j.tipo === "test") {
                     area.innerHTML = `
                         <h3>${j.titulo}</h3>
                         <p>Pregunta ${pIdx + 1} de ${j.preguntas.length}</p>
                         <p style="font-weight:600; margin-top:15px;">${p.enunciado}</p>
                         ${p.opcion.map((o, idx) => `<button class='btn' onclick='checkTest(${idx}, ${p.correcta})'>${o}</button>`).join('')}
                     `;
+                } else if (j.tipo === "tof") {
+                    area.innerHTML = `
+                        <h3>${j.titulo}</h3>
+                        <p>Pregunta ${pIdx + 1} de ${j.preguntas.length}</p>
+                        <p style="font-weight:600; margin-top:15px;">${p.enunciado}</p>
+                        <button class='btn' onclick='checkToF(true, ${p.respuesta})'>Verdadero</button>
+                        <button class='btn' style='background:#e74c3c; margin-top:10px;' onclick='checkToF(false, ${p.respuesta})'>Falso</button>
+                    `;
                 }
             }
 
             window.checkInput = (corr) => {
                 const val = document.getElementById('resp').value.trim();
-                if (val.toLowerCase() === corr.toLowerCase()) {
-                    alert("¡Correcto! ✅");
-                } else {
-                    alert("Incorrecto ❌. Era: " + corr);
-                }
-                pIdx++;
-                mostrar();
+                if (val.toLowerCase() === corr.toLowerCase()) { alert("¡Correcto! ✅"); }
+                else { alert("Incorrecto ❌. Era: " + corr); }
+                pIdx++; mostrar();
             };
 
             window.checkTest = (sel, corr) => {
-                if (sel === corr) {
-                    alert("¡Correcto! ✅");
-                } else {
-                    alert("Incorrecto ❌");
+                if (sel === corr) { alert("¡Correcto! ✅"); } else { alert("Incorrecto ❌"); }
+                pIdx++; mostrar();
+            };
+
+            window.checkToF = (sel, corr) => {
+                if (sel === corr) { alert("¡Correcto! ✅"); } else { alert("Incorrecto ❌"); }
+                pIdx++; mostrar();
+            };
+
+            window.verificarOrden = (li) => {
+                window.elementosSeleccionados.push(li.innerText);
+                li.style.display = 'none';
+                if (window.elementosSeleccionados.length === window.totalElementos.length) {
+                    let esIgual = window.elementosSeleccionados.every((val, idx) => val === window.totalElementos[idx]);
+                    if (esIgual) { alert("¡Orden correcto! 🎉"); } else { alert("El orden no es correcto ❌"); }
+                    volverAlMenu();
                 }
-                pIdx++;
-                mostrar();
             };
 
             mostrar();
         }
 
-        function volverAlMenu() {
-            cargarMenu();
-        }
-
+        function volverAlMenu() { cargarMenu(); }
         cargarMenu();
     </script>
 </body>
