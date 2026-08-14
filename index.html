@@ -2,90 +2,84 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>ClassWall - Consola de Lengua</title>
+    <title>ClassWall // Sistema de Lengua</title>
     <style>
         :root { --neon: #00ff41; --bg: #0d0d0d; }
-        body { background-color: var(--bg); color: var(--neon); font-family: 'Courier New', Courier, monospace; padding: 20px; }
-        .grid-juegos { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .card { border: 1px solid var(--neon); padding: 20px; }
-        .btn { background: transparent; color: var(--neon); border: 1px solid var(--neon); padding: 10px; cursor: pointer; }
+        body { background-color: var(--bg); color: var(--neon); font-family: 'Courier New', Courier, monospace; padding: 20px; max-width: 800px; margin: auto; }
+        .card { border: 1px solid var(--neon); padding: 20px; margin-bottom: 20px; }
+        .btn { background: transparent; color: var(--neon); border: 1px solid var(--neon); padding: 10px; cursor: pointer; margin-top: 10px; }
         .btn:hover { background: var(--neon); color: black; }
-        input { background: black; border: 1px solid var(--neon); color: var(--neon); padding: 10px; width: 100%; box-sizing: border-box; }
+        input { background: black; border: 1px solid var(--neon); color: var(--neon); padding: 10px; width: 100%; box-sizing: border-box; font-family: inherit; }
     </style>
 </head>
 <body>
 
-    <h1>> ClassWall_Terminal</h1>
-    <div id="grid-principal" class="grid-juegos"></div>
-    <div id="contenedor-juego-activo" style="display:none;">
-        <button class="btn" onclick="volverAlMenu()">[ VOLVER ]</button>
-        <div id="area-juego-dinamico"></div>
-    </div>
+    <h1>> ClassWall // SYSTEM_READY</h1>
+    <div id="pantalla"></div>
 
     <script>
-        const listaJuegos = [
+        const juegos = [
             {
                 tipo: "input",
-                titulo: "Ortografía: Tildes",
-                categoria: "Nivel 1",
-                desc: "Introduce la palabra correctamente acentuada.",
+                titulo: "CORE_ACENTUACION",
+                desc: "Ingresa la palabra con la tilde correcta.",
                 preguntas: [
-                    { enunciado: "¿Cómo se escribe 'cancion' con tilde?", respuesta: "canción" },
-                    { enunciado: "¿Cómo se escribe 'lapiz' con tilde?", respuesta: "lápiz" }
+                    { enunciado: "Escribe 'arbol' correctamente:", respuesta: "árbol" },
+                    { enunciado: "Escribe 'examen' (plural):", respuesta: "exámenes" }
                 ]
             },
             {
                 tipo: "test",
-                titulo: "Sintaxis básica",
-                categoria: "Nivel 2",
-                desc: "Selecciona la opción correcta.",
+                titulo: "CORE_SINTAXIS",
+                desc: "Identifica el sujeto.",
                 preguntas: [
-                    { enunciado: "¿El sujeto de 'El gato corre'?", opcion: ["El gato", "corre"], correcta: 0 }
+                    { enunciado: "En 'El perro ladra', ¿quién es el sujeto?", opcion: ["El perro", "ladra"], correcta: 0 }
                 ]
             }
         ];
 
-        function cargarMenu() {
-            document.getElementById('grid-principal').innerHTML = '';
-            listaJuegos.forEach((j, i) => {
-                document.getElementById('grid-principal').innerHTML += `
-                    <div class="card">
-                        <h3>${j.titulo}</h3>
-                        <p>${j.desc}</p>
-                        <button class="btn" onclick="iniciarJuego(${i})">EJECUTAR</button>
-                    </div>
-                `;
+        function renderMenu() {
+            let html = "<h2>> SELECCIONE MÓDULO:</h2>";
+            juegos.forEach((j, i) => {
+                html += `<div class="card"><h3>${j.titulo}</h3><p>${j.desc}</p><button class="btn" onclick="iniciar(${i})">INICIAR</button></div>`;
             });
+            document.getElementById('pantalla').innerHTML = html;
         }
 
-        function iniciarJuego(i) {
-            document.getElementById('grid-principal').style.display = 'none';
-            document.getElementById('contenedor-juego-activo').style.display = 'block';
-            const j = listaJuegos[i];
-            if (j.tipo === "test") ejecutarTest(j);
-            else ejecutarInput(j);
-        }
-
-        function ejecutarInput(juego) {
-            let pActual = 0;
+        function iniciar(i) {
+            const j = juegos[i];
+            let pIdx = 0;
+            
             function mostrar() {
-                if (pActual >= juego.preguntas.length) { areaJuego.innerHTML = "PROCESO FINALIZADO."; return; }
-                const p = juego.preguntas[pActual];
-                document.getElementById('area-juego-dinamico').innerHTML = `
-                    <p>${p.enunciado}</p>
-                    <input type="text" id="resp" onkeydown="if(event.key==='Enter') verificarInput('${p.respuesta}')">
-                `;
+                if (pIdx >= j.preguntas.length) { renderMenu(); return; }
+                const p = j.preguntas[pIdx];
+                let content = `<h2>> ${j.titulo}</h2><p>${p.enunciado}</p>`;
+                
+                if (j.tipo === "input") {
+                    content += `<input type="text" id="in" onkeydown="if(event.key==='Enter') checkInput('${p.respuesta}')">`;
+                } else {
+                    p.opcion.forEach((opt, idx) => {
+                        content += `<button class="btn" onclick="checkTest(${idx}, ${p.correcta})">${opt}</button><br>`;
+                    });
+                }
+                document.getElementById('pantalla').innerHTML = content;
             }
-            window.verificarInput = function(correcta) {
-                if (document.getElementById('resp').value.toLowerCase() === correcta.toLowerCase()) alert("ACCESO CONCEDIDO");
-                else alert("ACCESO DENEGADO");
-                pActual++; mostrar();
-            }
+
+            window.checkInput = (corr) => {
+                const val = document.getElementById('in').value;
+                alert(val.toLowerCase() === corr.toLowerCase() ? "ACCESS_GRANTED" : "ACCESS_DENIED");
+                pIdx++; mostrar();
+            };
+
+            window.checkTest = (sel, corr) => {
+                alert(sel === corr ? "SUCCESS" : "FAILURE");
+                pIdx++; mostrar();
+            };
+
             mostrar();
         }
 
-        // ... (puedes mantener la función ejecutarTest anterior)
-        cargarMenu();
+        renderMenu();
     </script>
 </body>
 </html>
