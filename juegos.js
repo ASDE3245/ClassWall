@@ -8,17 +8,12 @@ const listaJuegos = [
             {
                 enunciado: "¿Qué tipo de palabra es 'lápiz'?",
                 opcion: ["Aguda", "Llana", "Esdrújula", "Sobresdrújula"],
-                correcta: 1 // Empieza a contar en 0 (0=Aguda, 1=Llana, etc.)
+                correcta: 1
             },
             {
                 enunciado: "¿Qué tipo de palabra es 'canción'?",
                 opcion: ["Aguda", "Llana", "Esdrújula", "Sobresdrújula"],
                 correcta: 0
-            },
-            {
-                enunciado: "¿Qué tipo de palabra es 'médico'?",
-                opcion: ["Aguda", "Llana", "Esdrújula", "Sobresdrújula"],
-                correcta: 2
             }
         ]
     },
@@ -32,11 +27,6 @@ const listaJuegos = [
                 enunciado: "En la oración 'Los alumnos estudian lengua', ¿cuál es el sujeto?",
                 opcion: ["estudian lengua", "Los alumnos", "estudian", "lengua"],
                 correcta: 1
-            },
-            {
-                enunciado: "¿Cuál es el núcleo del predicado en 'El perro corre por el parque'?",
-                opcion: ["perro", "parque", "corre", "El"],
-                correcta: 2
             }
         ]
     }
