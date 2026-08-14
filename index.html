@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recursos Didácticos - Lengua 2º ESO</title>
+    <title>Juegos de Lengua - 2º ESO</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -33,14 +33,9 @@
             padding: 25px;
             border-radius: 15px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-        }
-        .card:hover { 
-            transform: translateY(-5px); 
-            box-shadow: 0 15px 25px rgba(0,0,0,0.1);
         }
         .tag {
             background: #e1f5fe;
@@ -63,42 +58,146 @@
             border-radius: 8px;
             text-align: center;
             font-weight: 600;
-            transition: background 0.2s;
+            cursor: pointer;
+            border: none;
         }
         .btn:hover { background: #2980b9; }
+
+        /* Contenedor del juego activo */
+        #contenedor-juego-activo {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            display: none;
+        }
+        .btn-volver {
+            background: #e74c3c;
+            margin-bottom: 20px;
+        }
+        .btn-volver:hover { background: #c0392b; }
+        .opcion-test {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background: #f8f9fa;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .opcion-test:hover { background: #e9ecef; border-color: var(--acento); }
     </style>
 </head>
 <body>
 
-    <header>
+    <header id="cabecera">
         <h1>Portal de Lengua 2º ESO</h1>
-        <p>Actividades interactivas y juegos educativos</p>
+        <p>Minijuegos creados para practicar clase a clase</p>
     </header>
 
-    <div id="app" class="grid-juegos"></div>
+    <!-- Aquí se listan los juegos -->
+    <div id="grid-principal" class="grid-juegos"></div>
 
-    <!-- Cargamos la lista de juegos desde el archivo externo -->
+    <!-- Aquí se ejecuta el juego cuando se hace clic -->
+    <div id="contenedor-juego-activo">
+        <button class="btn btn-volver" onclick="volverAlMenu()">⬅ Volver a la lista</button>
+        <div id="area-juego-dinamico"></div>
+    </div>
+
     <script src="juegos.js"></script>
     <script>
-        const app = document.getElementById('app');
-        
-        // Comprobamos que el archivo juegos.js existe y tiene datos
-        if (typeof listaJuegos !== 'undefined') {
-            listaJuegos.forEach(j => {
-                app.innerHTML += `
+        const gridPrincipal = document.getElementById('grid-principal');
+        const contenedorActivo = document.getElementById('contenedor-juego-activo');
+        const areaJuego = document.getElementById('area-juego-dinamico');
+        const cabecera = document.getElementById('cabecera');
+
+        function cargarMenu() {
+            gridPrincipal.innerHTML = '';
+            gridPrincipal.style.display = 'grid';
+            contenedorActivo.style.display = 'none';
+            cabecera.style.display = 'block';
+
+            listaJuegos.forEach((j, index) => {
+                gridPrincipal.innerHTML += `
                     <div class="card">
                         <div>
                             <span class="tag">${j.categoria}</span>
                             <h3>${j.titulo}</h3>
                             <p>${j.desc}</p>
                         </div>
-                        <a href="${j.url}" target="_blank" class="btn">Abrir Juego</a>
+                        <button class="btn" onclick="iniciarJuego(${index})">Jugar</button>
                     </div>
                 `;
             });
-        } else {
-            app.innerHTML = `<p style="text-align:center; color:red; grid-column: 1/-1;">Error: No se encuentra el archivo juegos.js o está mal configurado.</p>`;
         }
+
+        function iniciarJuego(index) {
+            gridPrincipal.style.display = 'none';
+            cabecera.style.display = 'none';
+            contenedorActivo.style.display = 'block';
+            
+            const juego = listaJuegos[index];
+            
+            if (juego.tipo === "test") {
+                cargarJuegoTest(juego);
+            }
+        }
+
+        function volverAlMenu() {
+            cargarMenu();
+        }
+
+        // Motor del juego tipo Test
+        function cargarJuegoTest(juego) {
+            let preguntaActual = ും;
+            let aciertos = 0;
+
+            function mostrarPregunta() {
+                if (preguntaActual >= juego.preguntas.length) {
+                    areaJuego.innerHTML = `
+                        <h2>¡Juego completado! 🎉</h2>
+                        <p>Has acertado ${aciertos} de ${juego.preguntas.length} preguntas.</p>
+                        <button class="btn" onclick="iniciarJuego(${listaJuegos.indexOf(juego)})">Jugar otra vez</button>
+                    `;
+                    return;
+                }
+
+                let p = juego.preguntas[preguntaActual];
+                let htmlOpciones = '';
+                
+                p.opciones.forEach((opcion, i) => {
+                    htmlOpciones += `<button class="opcion-test" onclick="verificarRespuesta(${i}, ${p.correcta})">${opcion}</button>`;
+                });
+
+                areaJuego.innerHTML = `
+                    <h3>${juego.titulo}</h3>
+                    <p style="color:#7f8c8d;">Pregunta ${preguntaActual + 1} de ${juego.preguntas.length}</p>
+                    <h4 style="font-size: 1.2rem; margin: 20px 0;">${p.enunciado}</h4>
+                    <div>${htmlOpciones}</div>
+                `;
+            }
+
+            window.verificarRespuesta = function(seleccionada, correcta) {
+                if (seleccionada === correcta) {
+                    aciertos++;
+                    alert("¡Correcto! ✅");
+                } else {
+                    alert("¡Incorrecto! ❌");
+                }
+                preguntaActual++;
+                mostrarPregunta();
+            }
+
+            mostrarPregunta();
+        }
+
+        // Arrancar la página cargando el menú
+        cargarMenu();
     </script>
 </body>
 </html>
