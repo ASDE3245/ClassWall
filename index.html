@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursos Didácticos - Lengua 2º ESO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primario: #2c3e50;
+            --acento: #3498db;
+            --fondo: #f4f7f6;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--fondo);
+            margin: 0;
+            padding: 30px 20px;
+            color: var(--primario);
+        }
+        header { text-align: center; margin-bottom: 40px; }
+        header h1 { margin-bottom: 5px; color: #1a252f; }
+        header p { color: #7f8c8d; }
+        .grid-juegos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 15px 25px rgba(0,0,0,0.1);
+        }
+        .tag {
+            background: #e1f5fe;
+            color: var(--acento);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            align-self: flex-start;
+            text-transform: uppercase;
+        }
+        .card h3 { margin: 15px 0 10px 0; font-size: 1.2rem; }
+        .card p { color: #555; font-size: 0.9rem; line-height: 1.5; margin-bottom: 20px; }
+        .btn {
+            display: block;
+            padding: 12px;
+            background: var(--acento);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .btn:hover { background: #2980b9; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Portal de Lengua 2º ESO</h1>
+        <p>Actividades interactivas y juegos educativos</p>
+    </header>
+
+    <div id="app" class="grid-juegos"></div>
+
+    <!-- Cargamos la lista de juegos desde el archivo externo -->
+    <script src="juegos.js"></script>
+    <script>
+        const app = document.getElementById('app');
+        
+        // Comprobamos que el archivo juegos.js existe y tiene datos
+        if (typeof listaJuegos !== 'undefined') {
+            listaJuegos.forEach(j => {
+                app.innerHTML += `
+                    <div class="card">
+                        <div>
+                            <span class="tag">${j.categoria}</span>
+                            <h3>${j.titulo}</h3>
+                            <p>${j.desc}</p>
+                        </div>
+                        <a href="${j.url}" target="_blank" class="btn">Abrir Juego</a>
+                    </div>
+                `;
+            });
+        } else {
+            app.innerHTML = `<p style="text-align:center; color:red; grid-column: 1/-1;">Error: No se encuentra el archivo juegos.js o está mal configurado.</p>`;
+        }
+    </script>
+</body>
+</html>
