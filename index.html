@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClassWall</title>
+    <title>ClassWall - Juegos de Lengua 2º ESO</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -63,7 +63,6 @@
         }
         .btn:hover { background: #2980b9; }
 
-        /* Contenedor del juego activo */
         #contenedor-juego-activo {
             max-width: 800px;
             margin: 0 auto;
@@ -97,13 +96,11 @@
 
     <header id="cabecera">
         <h1>ClassWall</h1>
-        <p>Minijuegos creados para practicar clase a clase</p>
+        <p>Portal de minijuegos de Lengua - 2º ESO</p>
     </header>
 
-    <!-- Aquí se listan los juegos -->
     <div id="grid-principal" class="grid-juegos"></div>
 
-    <!-- Aquí se ejecuta el juego cuando se hace clic -->
     <div id="contenedor-juego-activo">
         <button class="btn btn-volver" onclick="volverAlMenu()">⬅ Volver a la lista</button>
         <div id="area-juego-dinamico"></div>
@@ -122,18 +119,22 @@
             contenedorActivo.style.display = 'none';
             cabecera.style.display = 'block';
 
-            listaJuegos.forEach((j, index) => {
-                gridPrincipal.innerHTML += `
-                    <div class="card">
-                        <div>
-                            <span class="tag">${j.categoria}</span>
-                            <h3>${j.titulo}</h3>
-                            <p>${j.desc}</p>
+            if (typeof listaJuegos !== 'undefined') {
+                listaJuegos.forEach((j, index) => {
+                    gridPrincipal.innerHTML += `
+                        <div class="card">
+                            <div>
+                                <span class="tag">${j.categoria}</span>
+                                <h3>${j.titulo}</h3>
+                                <p>${j.desc}</p>
+                            </div>
+                            <button class="btn" onclick="iniciarJuego(${index})">Jugar</button>
                         </div>
-                        <button class="btn" onclick="iniciarJuego(${index})">Jugar</button>
-                    </div>
-                `;
-            });
+                    `;
+                });
+            } else {
+                gridPrincipal.innerHTML = `<p style="text-align:center; color:red; grid-column: 1/-1;">Error: No se encuentra juegos.js</p>`;
+            }
         }
 
         function iniciarJuego(index) {
@@ -142,7 +143,6 @@
             contenedorActivo.style.display = 'block';
             
             const juego = listaJuegos[index];
-            
             if (juego.tipo === "test") {
                 cargarJuegoTest(juego);
             }
@@ -152,9 +152,8 @@
             cargarMenu();
         }
 
-        // Motor del juego tipo Test
         function cargarJuegoTest(juego) {
-            let preguntaActual = ും;
+            let preguntaActual = 0;
             let aciertos = 0;
 
             function mostrarPregunta() {
@@ -170,7 +169,7 @@
                 let p = juego.preguntas[preguntaActual];
                 let htmlOpciones = '';
                 
-                p.opciones.forEach((opcion, i) => {
+                p.opcion.forEach((opcion, i) => {
                     htmlOpciones += `<button class="opcion-test" onclick="verificarRespuesta(${i}, ${p.correcta})">${opcion}</button>`;
                 });
 
@@ -196,7 +195,6 @@
             mostrarPregunta();
         }
 
-        // Arrancar la página cargando el menú
         cargarMenu();
     </script>
 </body>
