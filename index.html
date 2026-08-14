@@ -2,229 +2,89 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClassWall - Juegos de Lengua 2º ESO</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>ClassWall - Consola de Lengua</title>
     <style>
-        :root {
-            --primario: #2c3e50;
-            --acento: #3498db;
-            --fondo: #f4f7f6;
-        }
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--fondo);
-            margin: 0;
-            padding: 30px 20px;
-            color: var(--primario);
-        }
-        header { text-align: center; margin-bottom: 40px; }
-        header h1 { margin-bottom: 5px; color: #1a252f; }
-        header p { color: #7f8c8d; }
-        .grid-juegos {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .card {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .tag {
-            background: #e1f5fe;
-            color: var(--acento);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            align-self: flex-start;
-            text-transform: uppercase;
-        }
-        .card h3 { margin: 15px 0 10px 0; font-size: 1.2rem; }
-        .card p { color: #555; font-size: 0.9rem; line-height: 1.5; margin-bottom: 20px; }
-        .btn {
-            display: block;
-            padding: 12px;
-            background: var(--acento);
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-        }
-        .btn:hover { background: #2980b9; }
-
-        #contenedor-juego-activo {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            display: none;
-        }
-        .btn-volver {
-            background: #e74c3c;
-            margin-bottom: 20px;
-        }
-        .btn-volver:hover { background: #c0392b; }
-        .opcion-test {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            background: #f8f9fa;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            text-align: left;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        .opcion-test:hover { background: #e9ecef; border-color: var(--acento); }
+        :root { --neon: #00ff41; --bg: #0d0d0d; }
+        body { background-color: var(--bg); color: var(--neon); font-family: 'Courier New', Courier, monospace; padding: 20px; }
+        .grid-juegos { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .card { border: 1px solid var(--neon); padding: 20px; }
+        .btn { background: transparent; color: var(--neon); border: 1px solid var(--neon); padding: 10px; cursor: pointer; }
+        .btn:hover { background: var(--neon); color: black; }
+        input { background: black; border: 1px solid var(--neon); color: var(--neon); padding: 10px; width: 100%; box-sizing: border-box; }
     </style>
 </head>
 <body>
 
-    <header id="cabecera">
-        <h1>ClassWall</h1>
-        <p>Minijuegos creados para practicar clase a clase</p>
-    </header>
-
+    <h1>> ClassWall_Terminal</h1>
     <div id="grid-principal" class="grid-juegos"></div>
-
-    <div id="contenedor-juego-activo">
-        <button class="btn btn-volver" onclick="volverAlMenu()">⬅ Volver a la lista</button>
+    <div id="contenedor-juego-activo" style="display:none;">
+        <button class="btn" onclick="volverAlMenu()">[ VOLVER ]</button>
         <div id="area-juego-dinamico"></div>
     </div>
 
     <script>
-        // Los juegos están integrados directamente aquí para evitar fallos de carga
         const listaJuegos = [
             {
-                tipo: "test",
-                titulo: "Acentuación: ¿Aguda, llana o esdrújula?",
-                categoria: "Ortografía",
-                desc: "Pon a prueba tus conocimientos sobre la clasificación de las palabras según su sílaba tónica.",
+                tipo: "input",
+                titulo: "Ortografía: Tildes",
+                categoria: "Nivel 1",
+                desc: "Introduce la palabra correctamente acentuada.",
                 preguntas: [
-                    {
-                        enunciado: "¿Qué tipo de palabra es 'lápiz'?",
-                        opcion: ["Aguda", "Llana", "Esdrújula", "Sobresdrújula"],
-                        correcta: 1
-                    },
-                    {
-                        enunciado: "¿Qué tipo de palabra es 'canción'?",
-                        opcion: ["Aguda", "Llana", "Esdrújula", "Sobresdrújula"],
-                        correcta: 0
-                    }
+                    { enunciado: "¿Cómo se escribe 'cancion' con tilde?", respuesta: "canción" },
+                    { enunciado: "¿Cómo se escribe 'lapiz' con tilde?", respuesta: "lápiz" }
                 ]
             },
             {
                 tipo: "test",
-                titulo: "El Sujeto y el Predicado",
-                categoria: "Gramática",
-                desc: "Identifica correctamente los elementos básicos de la oración simple.",
+                titulo: "Sintaxis básica",
+                categoria: "Nivel 2",
+                desc: "Selecciona la opción correcta.",
                 preguntas: [
-                    {
-                        enunciado: "En la oración 'Los alumnos estudian lengua', ¿cuál es el sujeto?",
-                        opcion: ["estudian lengua", "Los alumnos", "estudian", "lengua"],
-                        correcta: 1
-                    }
+                    { enunciado: "¿El sujeto de 'El gato corre'?", opcion: ["El gato", "corre"], correcta: 0 }
                 ]
             }
         ];
 
-        const gridPrincipal = document.getElementById('grid-principal');
-        const contenedorActivo = document.getElementById('contenedor-juego-activo');
-        const areaJuego = document.getElementById('area-juego-dinamico');
-        const cabecera = document.getElementById('cabecera');
-
         function cargarMenu() {
-            gridPrincipal.innerHTML = '';
-            gridPrincipal.style.display = 'grid';
-            contenedorActivo.style.display = 'none';
-            cabecera.style.display = 'block';
-
-            listaJuegos.forEach((j, index) => {
-                gridPrincipal.innerHTML += `
+            document.getElementById('grid-principal').innerHTML = '';
+            listaJuegos.forEach((j, i) => {
+                document.getElementById('grid-principal').innerHTML += `
                     <div class="card">
-                        <div>
-                            <span class="tag">${j.categoria}</span>
-                            <h3>${j.titulo}</h3>
-                            <p>${j.desc}</p>
-                        </div>
-                        <button class="btn" onclick="iniciarJuego(${index})">Jugar</button>
+                        <h3>${j.titulo}</h3>
+                        <p>${j.desc}</p>
+                        <button class="btn" onclick="iniciarJuego(${i})">EJECUTAR</button>
                     </div>
                 `;
             });
         }
 
-        function iniciarJuego(index) {
-            gridPrincipal.style.display = 'none';
-            cabecera.style.display = 'none';
-            contenedorActivo.style.display = 'block';
-            
-            const juego = listaJuegos[index];
-            if (juego.tipo === "test") {
-                cargarJuegoTest(juego);
-            }
+        function iniciarJuego(i) {
+            document.getElementById('grid-principal').style.display = 'none';
+            document.getElementById('contenedor-juego-activo').style.display = 'block';
+            const j = listaJuegos[i];
+            if (j.tipo === "test") ejecutarTest(j);
+            else ejecutarInput(j);
         }
 
-        function volverAlMenu() {
-            cargarMenu();
-        }
-
-        function cargarJuegoTest(juego) {
-            let preguntaActual = 0;
-            let aciertos = 0;
-
-            function mostrarPregunta() {
-                if (preguntaActual >= juego.preguntas.length) {
-                    areaJuego.innerHTML = `
-                        <h2>¡Juego completado! 🎉</h2>
-                        <p>Has acertado ${aciertos} de ${juego.preguntas.length} preguntas.</p>
-                        <button class="btn" onclick="iniciarJuego(${listaJuegos.indexOf(juego)})">Jugar otra vez</button>
-                    `;
-                    return;
-                }
-
-                let p = juego.preguntas[preguntaActual];
-                let htmlOpciones = '';
-                
-                p.opcion.forEach((opcion, i) => {
-                    htmlOpciones += `<button class="opcion-test" onclick="verificarRespuesta(${i}, ${p.correcta})">${opcion}</button>`;
-                });
-
-                areaJuego.innerHTML = `
-                    <h3>${juego.titulo}</h3>
-                    <p style="color:#7f8c8d;">Pregunta ${preguntaActual + 1} de ${juego.preguntas.length}</p>
-                    <h4 style="font-size: 1.2rem; margin: 20px 0;">${p.enunciado}</h4>
-                    <div>${htmlOpciones}</div>
+        function ejecutarInput(juego) {
+            let pActual = 0;
+            function mostrar() {
+                if (pActual >= juego.preguntas.length) { areaJuego.innerHTML = "PROCESO FINALIZADO."; return; }
+                const p = juego.preguntas[pActual];
+                document.getElementById('area-juego-dinamico').innerHTML = `
+                    <p>${p.enunciado}</p>
+                    <input type="text" id="resp" onkeydown="if(event.key==='Enter') verificarInput('${p.respuesta}')">
                 `;
             }
-
-            window.verificarRespuesta = function(seleccionada, correcta) {
-                if (seleccionada === correcta) {
-                    aciertos++;
-                    alert("¡Correcto! ✅");
-                } else {
-                    alert("¡Incorrecto! ❌");
-                }
-                preguntaActual++;
-                mostrarPregunta();
+            window.verificarInput = function(correcta) {
+                if (document.getElementById('resp').value.toLowerCase() === correcta.toLowerCase()) alert("ACCESO CONCEDIDO");
+                else alert("ACCESO DENEGADO");
+                pActual++; mostrar();
             }
-
-            mostrarPregunta();
+            mostrar();
         }
 
+        // ... (puedes mantener la función ejecutarTest anterior)
         cargarMenu();
     </script>
 </body>
