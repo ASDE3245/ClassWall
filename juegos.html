@@ -1,0 +1,79 @@
+const juegos = [
+    // --- TIPO 1: TEST (Opción múltiple) ---
+    {
+        tipo: "test",
+        titulo: "Sintaxis (Test)", // [CAMBIAR] Título del juego que sale en la tarjeta
+        desc: "Selecciona la opción correcta.", // [CAMBIAR] Descripción breve
+        preguntas: [
+            { 
+                enunciado: "¿En 'El perro ladra', cuál es el sujeto?", // [CAMBIAR] Pregunta
+                opcion: ["El perro", "ladra"], // [CAMBIAR] Opciones disponibles
+                correcta: 0 // Posición de la opción correcta empezando por el 0 (0 es la primera, 1 la segunda...)
+            }
+        ]
+    },
+
+    // --- TIPO 2: INPUT (Escribir respuesta exacta) ---
+    {
+        tipo: "input",
+        titulo: "Acentuación (Escritura)", // [CAMBIAR] Título
+        desc: "Escribe la palabra correctamente acentuada.", // [CAMBIAR] Descripción
+        preguntas: [
+            { 
+                enunciado: "¿Cómo se escribe 'lapiz' con tilde?", // [CAMBIAR] Pregunta
+                respuesta: "lápiz" // [CAMBIAR] Respuesta exacta que tiene que escribir el alumno
+            }
+        ]
+    },
+
+    // --- TIPO 3: VERDADERO O FALSO (tof) ---
+    {
+        tipo: "tof",
+        titulo: "Teoría (Verdadero o Falso)", // [CAMBIAR] Título
+        desc: "Indica si las afirmaciones son verdaderas o falsas.", // [CAMBIAR] Descripción
+        preguntas: [
+            { 
+                enunciado: "¿El adverbio es una palabra invariable?", // [CAMBIAR] Afirmación
+                respuesta: true // Pon 'true' si es verdadero o 'false' si es falso
+            }
+        ]
+    },
+
+    // --- TIPO 4: COMPLETAR HUECO (hueco) ---
+    {
+        tipo: "hueco",
+        titulo: "Completar la oración", // [CAMBIAR] Título
+        desc: "Escribe la palabra que falta en el espacio _____.", // [CAMBIAR] Descripción
+        preguntas: [
+            { 
+                enunciado: "El núcleo de un grupo nominal siempre es un _____.", // [CAMBIAR] Frase con los guiones bajos
+                respuesta: "sustantivo" // [CAMBIAR] Palabra exacta que encaja en el hueco
+            }
+        ]
+    },
+
+    // --- TIPO 5: ORDENAR ELEMENTOS (ordenar) ---
+    {
+        tipo: "ordenar",
+        titulo: "Ordenar pasos sintácticos", // [CAMBIAR] Título
+        desc: "Haz clic en los elementos para comprobar el orden correcto.", // [CAMBIAR] Descripción
+        // [CAMBIAR] Pon aquí los pasos en el orden CORRECTO. El juego los mezclará solos automáticamente al iniciar.
+        elementosCorrectos: [
+            "1. Buscar el verbo", 
+            "2. Preguntar ¿Quién realiza la acción?", 
+            "3. Delimitar el Sujeto y el Predicado"
+        ]
+    }
+
+
+<script>
+    // PEGA AQUÍ TUS JUEGOS Y PREGUNTAS:
+    const juegos = [
+       // ... (tus bloques de juegos aquí dentro)
+    ];
+
+    // (Abajo de esto sigue el motor de la página que procesa los clics, las pantallas y el modo oscuro)
+    function toggleTheme() { document.body.classList.toggle('dark'); }
+    // ... resto del código ...
+</script>
+];
